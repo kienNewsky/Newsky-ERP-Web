@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: newsky-web
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
+  devtools:
+    livereload:
+      enabled: true
+
+api:
+  domain: http://123.31.12.44:1080
