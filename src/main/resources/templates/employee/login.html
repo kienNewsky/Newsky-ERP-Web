@@ -1,12 +1,40 @@
 <!DOCTYPE HTML>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="~{fragments/general.html :: headerfiles}">
+<head data-th-insert="~{fragments/general.html :: headerfiles}">
     <title>Thymeleaf Fragments: home</title>
 
 </head>
 <body>
 <div class="container">
-    <p>LOG IN Page</p>
+    <div class="row vh-100
+         align-items-center
+         justify-content-center">
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4 ">
+                <form action="#" data-th-action="@{/user/login}" data-th-object="${UserDTO}" method="post">
+                    <div class="mb-3">
+                        <label class="form-label" for="exampleInputEmail1">User name</label>
+                        <input class="form-control" data-th-field="*{username}"
+                               id="exampleInputEmail1"
+                               type="text">
+                        <!--                        <div class="form-text" id="emailHelp">We'll never share your email with anyone else.</div>-->
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="exampleInputPassword1">Password</label>
+                        <input class="form-control" data-th-field="*{password}" id="exampleInputPassword1"
+                               type="password">
+                    </div>
+                    <!--                    <div class="mb-3 form-check">-->
+                    <!--                        <input type="checkbox" class="form-check-input" id="exampleCheck1">-->
+                    <!--                        <label class="form-check-label" for="exampleCheck1">Check me out</label>-->
+                    <!--                    </div>-->
+                    <button class="btn btn-primary" type="submit">Login</button>
+                </form>
+            </div>
+            <div class="col-4"></div>
+        </div>
+    </div>
 </div>
 
 <div th:replace="~{fragments/general.html :: bodyjs}"></div>

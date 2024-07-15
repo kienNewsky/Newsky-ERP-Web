@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClientException;
 
+import java.io.IOException;
+
 @Controller
 @RequestMapping("/user")
 public class UserController {
@@ -17,11 +19,13 @@ public class UserController {
 
     @GetMapping("/login")
     public String getLogin(Model model) {
-        return "/employee/login";
+        model.addAttribute("UserDTO", new UserDTO());
+        return "employee/login";
     }
 
     @PostMapping("/login")
-    public void postLogin(@ModelAttribute UserDTO userDTO, HttpServletResponse response) {
+    public void postLogin(@ModelAttribute UserDTO userDTO, Model model, HttpServletResponse response) throws IOException {
+        model.addAttribute("UserDTO", userDTO);
         try {
             String token = restClientService.generateToken(userDTO);
             //Set Cookie and redirect
@@ -30,8 +34,12 @@ public class UserController {
             cookie.setSecure(true);
             cookie.setPath("/");
             response.addCookie(cookie);
+            response.sendRedirect("/");
         } catch (RestClientException ex) {
             // Redirect to
+            response.sendRedirect("/user/login?error=true");
+        } catch (IOException e) {
+            throw new RuntimeException("Lỗi IO ở thủ tục login", e);
         }
     }
 }
