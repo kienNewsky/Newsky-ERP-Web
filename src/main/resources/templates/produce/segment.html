@@ -1,17 +1,33 @@
 <!DOCTYPE HTML>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="~{fragments/general.html :: headerfiles}">
+
+<head data-th-insert="~{fragments/general.html :: headerfiles}">
     <title>Thymeleaf Fragments: home</title>
 
 </head>
+
 <body class="p-3">
-<div class="container">
-    <div th:replace="~{fragments/general.html :: mainmenu}"></div>
+    <div id="master" class="container">
+        <div th:replace="~{fragments/general.html :: mainmenu}"></div>
 
+        <h2 class="text-primary">Các công đoạn sản xuất</h2>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <td>STT</td>
+                    <td>Tên công đoạn</td>
+                </tr>
+            </thead>
+            <tbody id="segmentTable">
 
-    <p>Testing Live Reload lan 123634</p>
-</div>
+            </tbody>
+        </table>
 
-<div th:replace="~{fragments/general.html :: bodyjs}"></div>
+        <script data-th-src="@{/js/segment/segment.js}"></script>
+
+    </div>
+
+    <div data-th-replace="~{fragments/general.html :: bodyjs}"></div>
 </body>
+
 </html>

@@ -31,9 +31,23 @@ public class UserController {
             //Set Cookie and redirect
             Cookie cookie = new Cookie("JWT_TOKEN", token);
             cookie.setHttpOnly(true);
-            cookie.setSecure(true);
+            cookie.setSecure(false);
             cookie.setPath("/");
+            cookie.setMaxAge(60 * 60 * 24); // Example: 1 day expiry
+            cookie.setDomain("123.31.12.44"); // Ensure this is correct for cross-domain requests
+//            cookie.setSameSite = "None"; // for cross-origin requests
+
             response.addCookie(cookie);
+            String sameSiteCookie = String.format("%s=%s; %s; %s; %s; %s",
+                    cookie.getName(),
+                    cookie.getValue(),
+                    "Path=" + cookie.getPath(),
+                    "HttpOnly",
+                    "Secure",
+                    "SameSite=None");
+
+            response.setHeader("Set-Cookie", sameSiteCookie);
+            
             response.sendRedirect("/");
         } catch (RestClientException ex) {
             // Redirect to

@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class produce {
     @Autowired
     private RestClientService restClientService;
+
     @GetMapping("/segment")
     public String segment(Model model) {
-        UserDTO newUser = new UserDTO("tung", "123");
-        String token = restClientService.generateToken(newUser);
-        System.out.println("Controller Produce method invoked token: " + token);
+//        UserDTO newUser = new UserDTO("tung", "123");
+//        String token = restClientService.generateToken(newUser);
+        System.out.println("Controller Produce method invoked token: ");
+//        model.addAttribute("token", token);
         return "/produce/segment";
     }
 }
