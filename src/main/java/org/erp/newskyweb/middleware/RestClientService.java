@@ -14,11 +14,12 @@ public class RestClientService {
     private final RestClient restClient; //= RestClient.create();
 
     public RestClientService() {
-        this.apiUrl = "http://123.31.12.44:8080";
+        this.apiUrl = "https://123.31.12.44:8080";
         this.restClient = RestClient.builder().baseUrl(apiUrl).build();
     }
 
     public String testToken(String token) {
+        System.out.println("Có chạy thủ tục test TOKEN");
         return restClient
                 .get()
                 .uri("/auth/testToken")

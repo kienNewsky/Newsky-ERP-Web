@@ -9,5 +9,22 @@ spring:
     livereload:
       enabled: true
 
+#server:
+#  ssl:
+#    #    key-store-type: PKCS12
+#    #    key-store: classpath:keystore/newsky.p12
+#    #    key-store-password: E=MC2kien0101535971
+#    #    key-alias: newsky
+#    #    enabled: true
+#    bundle:
+#      jks:
+#        server:
+#          key:
+#            alias: newsky
+#          keystore:
+#            location: classpath:keystore/newsky.p12
+#            password: E=MC2kien0101535971
+#            type: PKCS12
+
 api:
-  domain: http://123.31.12.44:1080
+  domain: https://123.31.12.44:1080

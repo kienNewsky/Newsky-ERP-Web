@@ -25,10 +25,13 @@ public class UserController {
 
     @PostMapping("/login")
     public void postLogin(@ModelAttribute UserDTO userDTO, Model model, HttpServletResponse response) throws IOException {
+
         model.addAttribute("UserDTO", userDTO);
         try {
+            System.out.println("Có chạy thủ tục login");
             String token = restClientService.generateToken(userDTO);
             //Set Cookie and redirect
+            System.out.println("Nếu có lỗi sẽ ko thấy dòng này");
             Cookie cookie = new Cookie("JWT_TOKEN", token);
             cookie.setHttpOnly(true);
             cookie.setSecure(false);
@@ -47,7 +50,7 @@ public class UserController {
                     "SameSite=None");
 
             response.setHeader("Set-Cookie", sameSiteCookie);
-            
+
             response.sendRedirect("/");
         } catch (RestClientException ex) {
             // Redirect to

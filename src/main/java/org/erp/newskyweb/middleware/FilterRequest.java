@@ -32,7 +32,7 @@ public class FilterRequest implements Filter {
         String path = httpServletRequest.getRequestURI();
         if (!path.equals("/user/login")) {
             if (token == null || !isValidToken(token)) {
-                System.out.println(token);
+                System.out.println("doFilter: " + token);
 
                 httpServletResponse.sendRedirect("/user/login");
                 return;
