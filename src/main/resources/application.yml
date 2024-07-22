@@ -27,4 +27,4 @@ spring:
 #            type: PKCS12
 
 api:
-  domain: https://123.31.12.44:1080
+  domain: http://123.31.12.44:1080

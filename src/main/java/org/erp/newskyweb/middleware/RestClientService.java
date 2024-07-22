@@ -14,7 +14,7 @@ public class RestClientService {
     private final RestClient restClient; //= RestClient.create();
 
     public RestClientService() {
-        this.apiUrl = "https://123.31.12.44:8080";
+        this.apiUrl = "http://123.31.12.44:8080";
         this.restClient = RestClient.builder().baseUrl(apiUrl).build();
     }
 

@@ -7,21 +7,30 @@
 </head>
 
 <body class="p-3">
-    <div id="master" class="container">
+    <div class="container" id="master">
         <div th:replace="~{fragments/general.html :: mainmenu}"></div>
 
         <h2 class="text-primary">Các công đoạn sản xuất</h2>
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <td>STT</td>
-                    <td>Tên công đoạn</td>
-                </tr>
-            </thead>
-            <tbody id="segmentTable">
+        <input id="token" data-th-value="${token}" type="hidden" value="" />
+        <div class="row">
+            <div class="col col-md-6">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <td>STT</td>
+                            <td>Tên công đoạn</td>
+                        </tr>
+                    </thead>
+                    <tbody id="segmentTable">
 
-            </tbody>
-        </table>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col col-md-6" id="detail">
+
+            </div>
+        </div>
+
 
         <script data-th-src="@{/js/segment/segment.js}"></script>
 

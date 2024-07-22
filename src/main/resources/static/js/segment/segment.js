@@ -1,52 +1,64 @@
-function getCookie1(cname) {
-    let name = cname + "=";
-    let decodedCookie = decodeURIComponent(document.cookie);
-    let ca = decodedCookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-        }
-    }
-    return "";
-}
+function genTableBody(tableData) {
+    const segmentTable = document.getElementById("segmentTable");
+    segmentTable.replaceChildren();
 
-function getCookie(cname) {
-    let name = cname + "=";
-    let decodedCookie = decodeURIComponent(document.cookie);
-    let ca = decodedCookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-            let cookieValue = c.substring(name.length, c.length);
-            console.log(`Cookie found: ${cookieValue}`);
-            return cookieValue;
-        }
+    let mlength = tableData.length
+    for (let i = 0; i < mlength; i++) {
+        let tr = document.createElement("tr")
+        let tdSTT = document.createElement("td")
+        tdSTT.textContent = i + 1
+        tr.appendChild(tdSTT)
+        let tdSegmentName = document.createElement("td")
+        tdSegmentName.className = "text-primary"
+        tdSegmentName.textContent = tableData[i].segmentName
+        tdSegmentName.addEventListener("click", function () {
+            alert("Click on ID: " + tableData[i].id)
+        })
+        tr.appendChild(tdSegmentName)
+        segmentTable.appendChild(tr)
     }
-    console.log("Cookie not found");
-    return "";
 }
-
 
 document.addEventListener("DOMContentLoaded", (event) => {
-    const segmentTable = document.getElementById("segmentTable");
-    console.log("JWT Cookie: ", getCookie("JWT_TOKEN"));
-    console.log("Document Cookies: ", document.cookie);
+    const token = document.getElementById("token").value;
+    const username = getCookie("username")
+    const sqlHost = "http://123.31.12.44:8080";
 
-    fetch("http://123.31.12.44:8080/produce-sevice/segment", {
-        headers: {
-            // "Authorization": `Bearer ${getCookie("JWT_TOKEN")}`
-            credentials: 'include',
-            "Access-Control-Allow-Credentials": true
-        }
-    })
-        .then(response => response.json())
-        .then(data = console.log(data))
-        .catch(e => console.log(e));
+    const segmentTable = document.getElementById("segmentTable");
+
+    asyncFetch("GET", sqlHost, "/produce-service/segment", token, username)
+        .then(response => {
+            if (response.ok) {
+                return response.json()
+            } else {
+                throw new Error(`Response status: ${response.status}`);
+            }
+        })
+        .then(data => {
+            genTableBody(data)
+        })
+        .catch(e => console.log(e))
+
+    // fetch("http://123.31.12.44:8080/produce-service/segment", {
+    //     headers: {
+    //         "Authorization": `Bearer ${token.value}`,
+    //         "Content-Type": "application/json",
+    //         "UserName": "tung"
+    //     }
+    // })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         let str = ""
+    //         let length = data.length;
+    //         for (i = 0; i < length; i++) {
+    //             str += `
+    //                 <tr>
+    //                     <td>${i + 1}</td>
+    //                     <td>${data[i].segmentName}</td>
+    //                 </tr>
+    //             `
+    //         }
+    //         segmentTable.innerHTML = str;
+    //     })
+    //     .catch(e => console.log(e));
 });
