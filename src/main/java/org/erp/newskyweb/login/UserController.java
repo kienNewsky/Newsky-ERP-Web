@@ -28,28 +28,33 @@ public class UserController {
 
         model.addAttribute("UserDTO", userDTO);
         try {
-            System.out.println("Có chạy thủ tục login");
             String token = restClientService.generateToken(userDTO);
             //Set Cookie and redirect
-            System.out.println("Nếu có lỗi sẽ ko thấy dòng này");
             Cookie cookie = new Cookie("JWT_TOKEN", token);
             cookie.setHttpOnly(true);
             cookie.setSecure(false);
             cookie.setPath("/");
-            cookie.setMaxAge(60 * 60 * 24); // Example: 1 day expiry
-            cookie.setDomain("123.31.12.44"); // Ensure this is correct for cross-domain requests
+//            cookie.setMaxAge(60 * 60 * 24); // Example: 1 day expiry
+//            cookie.setDomain("123.31.12.44"); // Ensure this is correct for cross-domain requests
 //            cookie.setSameSite = "None"; // for cross-origin requests
 
             response.addCookie(cookie);
-            String sameSiteCookie = String.format("%s=%s; %s; %s; %s; %s",
-                    cookie.getName(),
-                    cookie.getValue(),
-                    "Path=" + cookie.getPath(),
-                    "HttpOnly",
-                    "Secure",
-                    "SameSite=None");
+//            String sameSiteCookie = String.format("%s=%s; %s; %s; %s; %s",
+//                    cookie.getName(),
+//                    cookie.getValue(),
+//                    "Path=" + cookie.getPath(),
+//                    "HttpOnly",
+//                    "Secure",
+//                    "SameSite=None");
 
-            response.setHeader("Set-Cookie", sameSiteCookie);
+//            response.setHeader("Set-Cookie", sameSiteCookie);
+            Cookie userCookie = new Cookie("username", userDTO.getUsername());
+            userCookie.setPath("/");
+            response.addCookie(userCookie);
+
+            Cookie otherToken = new Cookie("otherToken", token);
+            otherToken.setPath("/");
+            response.addCookie(otherToken);
 
             response.sendRedirect("/");
         } catch (RestClientException ex) {

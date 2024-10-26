@@ -18,6 +18,8 @@ public class FilterRequest implements Filter {
     @Autowired
     private RestClientService apiService;
 
+    private String userName;
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -32,13 +34,16 @@ public class FilterRequest implements Filter {
         String path = httpServletRequest.getRequestURI();
         if (!path.equals("/user/login")) {
             if (token == null || !isValidToken(token)) {
-                System.out.println("doFilter: " + token);
+//                System.out.println("doFilter: " + token);
 
                 httpServletResponse.sendRedirect("/user/login");
                 return;
             }
         }
-        chain.doFilter(request, response);
+        CustomHttpServletRequestWrapper wrapper = new CustomHttpServletRequestWrapper(httpServletRequest);
+        wrapper.addHeader("X-Username", this.userName);
+
+        chain.doFilter(wrapper, response);
     }
 
     @Override
@@ -48,9 +53,12 @@ public class FilterRequest implements Filter {
 
     private boolean isValidToken(String token) {
         try {
-            String testTokenResult = apiService.testToken(token);
-            System.out.println(testTokenResult);
-            return "OK".equals(testTokenResult);
+            String testTokenResult = apiService.testToken(token, "/auth/testToken2");
+//            System.out.println(testTokenResult);
+            String[] parts = testTokenResult.split(" ");
+//            String part1 = parts[0];
+            this.userName = parts[1];
+            return "OK".equals(parts[0]);
         } catch (RestClientException ex) {
             return false;
         }

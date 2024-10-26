@@ -1,14 +1,23 @@
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Home</title>
+    <title>Department</title>
     <th:block th:replace="~{fragments/general.html :: headerfiles}"></th:block>
 </head>
 
 <body>
 <div th:replace="~{fragments/general.html :: mainmenu}"></div>
 
-<h1>Home page</h1>
+
+<script data-th-src="@{/js/pages/department/exec-department.js}" type="module"></script>
+<script>
+    function initMain() {
+        const xmain = document.getElementById("main");
+        xmain.innerHTML = "<newsky-department></newsky-department>";
+    }
+</script>
+
+
 <!--<div data-th-replace="~{fragments/general.html :: bodyjs}"></div>-->
 </body>
 </html>
